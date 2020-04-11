@@ -1,19 +1,15 @@
 //requireds
-const fs = require('fs');
-//const fs = require('express'); // los externos
-//const fs = require('./fs'); // los propios
+//se hace una deconstruccion
+const { crearArchivo } = require('./multiplicar/multiplicar');
 
-let base = 13;
-let data = '';
+//se puede usar multiplicar.crearArchivo, pero gracias a la desctructuracion se puede
 
-for (let i = 1; i < 10; i++) {
-    data += (`${base} * ${i} = ${i*base} \n`);
-}
+//console.log(process.argv);
+let argv = process.argv;
+let parametro = argv[2];
+let base = parametro.split('=')[1];
+//console.log(base);
 
-
-//parametros
-//nombre del archivo - el contenido que se quiere grabar - callback
-fs.writeFile(`tablas/tabla-${base}.txt`, data, (err) => {
-    if (err) throw err;
-    console.log(`El archivo tabla-${base} ha sido grabado!`);
-});
+crearArchivo(base)
+    .then( archivo => console.log(`archivo creado: ${archivo}`))
+    .catch( err => console.log(err));
