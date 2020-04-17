@@ -1,4 +1,5 @@
 const fs = require('fs');
+var colors = require('colors');
 
 let listadoPorHacer = [];
 
@@ -41,6 +42,50 @@ const crear = (descripcion) => {
     return porHacer;
 }
 
+const listar = () => {
+    cargarDB();
+
+    listadoPorHacer.forEach(porHacer => {
+        console.log('=====Por Hacer====='.green);
+        console.log(`${porHacer.descripcion}`);
+        console.log(`Estado: ${porHacer.completado}`);
+        console.log('==================='.green);
+    });
+
+}
+
+const actualizar = (descripcion, completado = true) => {
+    cargarDB();
+
+    // si no coincide regresa un -1 pero si coincide indica la posicion en la que se encuentra el elemento que
+    // cumple con la condicion
+    let index = listadoPorHacer.findIndex(tarea => tarea.descripcion === descripcion);
+    if (index >= 0) {
+        listadoPorHacer[index].completado = completado;
+        guardarDB();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const borrar = (descripcion) => {
+    cargarDB();
+
+    let nuevoListado = listadoPorHacer.filter(tarea => tarea.descripcion !== descripcion);
+
+    if (nuevoListado.length === listadoPorHacer.length) {
+        return false;
+    } else {
+        listadoPorHacer = nuevoListado;
+        guardarDB();
+        return true;
+    }
+}
+
 module.exports = {
-    crear
+    crear,
+    listar,
+    actualizar,
+    borrar
 }
