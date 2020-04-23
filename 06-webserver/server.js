@@ -3,7 +3,9 @@ const app = express();
 const hbs = require('hbs');
 require('./hbs/helpers');
 
-//especificar un callback o un función
+const port = process.env.PORT || 3000;
+
+//especificar un callback o un función para hacer publica una carpeta del server
 app.use(express.static(__dirname + '/public'))
 
 // Para usar partials en una carpeta
@@ -34,6 +36,19 @@ app.get('/about', (req, res) => {
     res.send('Hola Data')
 }) */
 
-app.listen(3000, () => {
-    console.log(`Escuchando peticiones en el puerto 3000`);
+app.listen(port, () => {
+    console.log(`Escuchando peticiones en el puerto ${port}`);
 })
+
+// ver app  
+/*
+// ver app  https://tato-webpage.herokuapp.com/ deployed to Heroku
+git push heroku master
+*/ 
+
+// npm run nodemon
+/* "scripts": {
+    "start": "node server.js",
+    "nodemon": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }, */
